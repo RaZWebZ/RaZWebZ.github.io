@@ -1,298 +1,358 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Development Presentation</title>
-    <meta name="description" content="Learn how to create apps and generate new income streams.">
-    <meta name="keywords" content="app development, mobile apps, income, programming, education, technology">
+    <title>App සංවර්ධන ඉදිරිපත් කිරීම - නව ආදායම් මාර්ගයක්</title>
+    <meta name="description" content="ඇප් නිර්මාණය කර නව ආදායම් මාර්ග උත්පාදනය කරන ආකාරය ඉගෙන ගන්න.">
+    <meta name="keywords" content="ඇප් සංවර්ධනය, ජංගම යෙදුම්, ආදායම, ක්‍රමලේඛනය, අධ්‍යාපනය, තාක්ෂණය, ශ්‍රී ලංකා">
+    <meta name="author" content="ඔබේ නම">
+    <link rel="canonical" href="ඔබේ වෙබ් අඩවි ලිපිනය">
+    <meta property="og:title" content="App සංවර්ධන ඉදිරිපත් කිරීම - නව ආදායම් මාර්ගයක්">
+    <meta property="og:description" content="ඇප් නිර්මාණය කර නව ආදායම් මාර්ග උත්පාදනය කරන ආකාරය ඉගෙන ගන්න.">
+    <meta property="og:image" content="ඔබේ රූපයේ URL">
+    <meta property="og:url" content="ඔබේ වෙබ් අඩවි ලිපිනය">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
-            overflow: hidden; /*Hide scroll bar */
-             height: 100vh; /* Set the body height to 100% of the viewport height */
-           }
-        .slide {
-           display: none;
+            overflow: hidden;
+            height: 100vh;
+            font-family: 'Noto Sans Sinhala', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
-           width: 100%;
-            position: absolute; /* allows stacking and moving of the divs*/
-            transition: opacity 0.5s ease; /* Adds transition to the change in opacity*/
-           opacity: 0; /* All slides start off with no opacity, meaning it's hidden*/
-           padding-top: 4rem;
+        }
+        .presentation-container {
+            flex: 1;
+            position: relative;
+        }
+        .slide {
+            display: none;
+            min-height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.5s ease;
+            opacity: 0;
+            padding-top: 4rem;
+            overflow-y: auto; /* Enable scrolling within slides if content overflows */
+            scroll-behavior: smooth;
         }
         .slide.active {
-           display: flex;
-           opacity: 1;
-          position: relative;
-           flex-direction: column;
-           justify-content: center;
-          align-items: center;
+            display: flex;
+            opacity: 1;
+            position: relative;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-         .nav-link{
-         cursor: pointer;
-         }
         .navigation-buttons {
-           display: flex;
-           justify-content: space-between; /* distribute buttons*/
-           width: 100%; /* Fill full space*/
-           position: absolute; /* position it absolute */
-           bottom: 2rem;/* bring the element closer to bottom */
-            padding: 0 1rem; /* prevent hitting container boundaries*/
-           box-sizing: border-box;/* prevents overflowing to container edges*/
+            display: flex;
+            justify-content: space-between;
+            padding: 0 1rem;
+            margin-top: 1rem;
         }
         .nav-button {
-           background-color: #4caf50;
+            background-color: #4caf50;
             color: white;
-           padding: 10px 15px;
-           border: none;
+            padding: 10px 15px;
+            border: none;
             border-radius: 4px;
-           cursor: pointer;
+            cursor: pointer;
             transition: background-color 0.3s ease;
         }
         .nav-button:hover {
-           background-color: #388e3c;
+            background-color: #388e3c;
         }
-       .chart-container {
-         margin-top: 2rem; /* Move away from bottom icons and buttons*/
-         width: 80%; /* make it smaller if needed */
-          max-width: 600px;/* prevent it going to big if large screen */
-         }
-
-       .source {
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+            gap: 1rem;
+            padding: 0 1rem;
+            overflow-x: auto; /* Enable horizontal scrolling for icons */
+        }
+        .icon-container i {
+            font-size: 1.5rem;
+            color: #4caf50;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .icon-container i:hover {
+            color: #388e3c;
+        }
+        .chart-container {
+            margin-top: 1rem;
+            width: 80%;
+            max-width: 600px;
+        }
+        .source {
             margin-top: 10px;
-           font-size: 0.8rem;
-           color: #777;
+            font-size: 0.8rem;
+            color: #777;
+            text-align: center;
         }
-       .icon-container {
-           margin-top: 1rem; /* Move the icon container away from slides*/
-       }
-
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body class="bg-green-50 flex justify-center items-start min-h-screen">
-    <div class="container w-4/5 max-w-6xl mx-auto relative">
-        <div id="slide1" class="slide active flex-col justify-center text-center">
-          <div class="section bg-white p-8 rounded-xl shadow-md border border-gray-200">
-            <h1 class="text-3xl font-bold text-green-700 mb-6">අලුත් ආදායම් මාර්ගයක් - ඇප් හදමු!</h1>
-            <p class="text-gray-700 text-lg">යාලුවනේ,</p>
-            <p class="text-gray-700 text-lg">අපි හැමෝම පරිගණක ක්ෂේත්‍රයේ ඉගෙනගත්ත දේවල් අනිත් අයට කියලා දෙන එක ලොකු සතුටක්. ඒත් අපි හැමදාම එකම දේම කරනවා නේද? ආදායම පැත්තෙනුත් ලොකු වෙනසක් නැහැ. ඔයාලා කවදහරි හිතලා තියෙනවද මේ දැනුමෙන්ම අපිට අලුත් ආදායම් මාර්ගයක් හදාගන්න පුළුවන් නම් කොච්චර හොඳද කියලා?</p>
-           </div>
-        </div>
+    <div class="container w-full max-w-6xl mx-auto">
+        <div class="presentation-container relative">
+            <div id="slide1" class="slide active flex-col justify-center text-center fade-in">
+                <div class="section bg-white p-8 rounded-xl shadow-md border border-gray-200">
+                    <h1 class="text-3xl font-bold text-green-700 mb-6">අලුත් ආදායම් මාර්ගයක් - ඇප් හදමු!</h1>
+                    <p class="text-gray-700 text-lg">යාලුවනේ,</p>
+                    <p class="text-gray-700 text-lg">අපි හැමෝම පරිගණක ක්ෂේත්‍රයේ ඉගෙනගත්ත දේවල් අනිත් අයට කියලා දෙන එක ලොකු සතුටක්. ඒත් අපි හැමදාම එකම දේම කරනවා නේද? ආදායම පැත්තෙනුත් ලොකු වෙනසක් නැහැ. ඔයාලා කවදහරි හිතලා තියෙනවද මේ දැනුමෙන්ම අපිට අලුත් ආදායම් මාර්ගයක් හදාගන්න පුළුවන් නම් කොච්චර හොඳද කියලා?</p>
+                </div>
+            </div>
 
-        <div id="slide2" class="slide flex-col justify-center text-center">
-            <div class="section bg-white p-8 rounded-xl shadow-md border border-gray-200">
-             <h2 class="text-2xl font-bold text-green-700 mb-4">අවස්ථාව සහ වෙනසක් සඳහා අභියෝගය</h2>
-            <p class="text-gray-700 text-lg">අද ලෝකේ ගොඩක් වෙනස් වෙලා. හැමෝමගේ අතේම ස්මාර්ට්ෆෝන් තියෙනවා. ඒ ෆෝන් වල තියෙන ඇප් වලින් මිනිස්සුන්ගේ ජීවිත කොච්චර පහසු වෙලාද? ඔයාලා දන්නවද, මේ ඇප් හදන අය ඒ ඇප් වලින් <span class="font-bold text-green-700">ලක්ෂ ගණන්, කෝටි ගණන්</span> හොයනවා. සමහර ඇප් හරිම සරලයි. ඒත් ඒවායින් ලොකු ආදායමක් එනවා.</p>
-                <img src="placeholder-image.png" alt="ඇප් අවස්ථාව" class="max-w-md h-auto my-4">
+            <div id="slide2" class="slide flex-col justify-center text-center fade-in">
+                <div class="section bg-white p-8 rounded-xl shadow-md border border-gray-200">
+                    <h2 class="text-2xl font-bold text-green-700 mb-4">අවස්ථාව සහ වෙනසක් සඳහා අභියෝගය</h2>
+                    <p class="text-gray-700 text-lg">අද ලෝකේ ගොඩක් වෙනස් වෙලා. හැමෝමගේ අතේම ස්මාර්ට්ෆෝන් තියෙනවා. ඒ ෆෝන් වල තියෙන ඇප් වලින් මිනිස්සුන්ගේ ජීවිත කොච්චර පහසු වෙලාද? ඔයාලා දන්නවද, මේ ඇප් හදන අය ඒ ඇප් වලින් <span class="font-bold text-green-700">ලක්ෂ ගණන්, කෝටි ගණන්</span> හොයනවා. සමහර ඇප් හරිම සරලයි. ඒත් ඒවායින් ලොකු ආදායමක් එනවා.</p>
+                    <img src="placeholder-image.png" alt="ඇප් අවස්ථාව" class="max-w-md h-auto my-4">
+                </div>
+            </div>
+
+            <div id="slide3" class="slide flex-col justify-center text-center fade-in">
+                <div class="section bg-white p-8 rounded-xl shadow-md border border-gray-200">
+                    <h2 class="text-2xl font-bold text-green-700 mb-4">විසඳුම සහ ආරම්භ කළ හැකි ක්‍රමය</h2>
+                    <p class="text-gray-700 text-lg">මේකට තියෙන හොඳම විසඳුම තමයි අපි <span class="font-bold text-green-700">ඇප් හදන්න ඉගෙනගන්න</span> එක. ඔයාලා හිතන්න එපා ඒක අමාරු වැඩක් කියලා. මම දන්නවා ඔයාලා දක්ෂයි කියලා. ඔයාලට පුළුවන් සරල ඇප් එකක් හදන්න ඉගෙනගන්න. ජනවාරි ඉඳන් උදේට ඔයාලට නිදහස් වෙලාව තියෙනවනේ. ඒ කාලේ පාවිච්චි කරලා ඔන්ලයින් වලින් නොමිලේ තියෙන පාඨමාලා වලින් මේ දේවල් ඉගෙනගන්න පුළුවන්.</p>
+                    <p class="text-gray-700 text-lg">මම ඔයාලට උදව් කරන්න ලෑස්තියි. <span class="font-bold text-green-700">නෝඩ් ජේ එස්</span> වගේ දේවල් ඔයාලට ටික ටික ඉගෙනගන්න පුළුවන්. මුලින්ම සරල ඇප් එකක් හදමු. කාලගුණය බලන්න, සටහන් තියාගන්න වගේ සරල ඇප් වලින් පටන්ගමු. පස්සේ ටික ටික අලුත් දේවල් ඉගෙනගන්න පුළුවන්.</p>
+                    <img src="placeholder-learn.png" alt="ඉගෙන ගන්නා ආකාරය" class="max-w-md h-auto my-4">
+                </div>
+            </div>
+
+            <div id="slide4" class="slide flex-col justify-center text-center fade-in">
+                <div class="section bg-white p-8 rounded-xl shadow-md border border-gray-200">
+                    <h2 class="text-2xl font-bold text-green-700 mb-4">ආදායම් සහ අනාගතය</h2>
+                    <p class="text-gray-700 text-lg">හිතන්න ඔයාලා හදන ඇප් එකක් මිලියනයක් ඩවුන්ලෝඩ් කළොත්. ඒකෙන් පොඩි ගාණක් අය කළොත් වුණත් ඔයාලට කොච්චර ආදායමක් එයිද? මේක ඔයාලගේ අනාගතය වෙනස් කරන්න පුළුවන් හොඳ අවස්ථාවක්. අපේ ආයතනයේ අධිපතිතුමා ආපහු එනකොට ඔයාලට පුළුවන් එයාට ඔයාලාගේම ඇප් එකක් පෙන්නන්න. ඒක කොච්චර ආඩම්බරයක්ද?</p>
+                    <img src="placeholder-money.png" alt="ආදායම් අවස්ථා" class="max-w-md h-auto my-4">
+                </div>
+            </div>
+
+            <div id="slide5" class="slide flex-col justify-center text-center fade-in">
+                <div class="section bg-white p-8 rounded-xl shadow-md border border-gray-200">
+                    <h2 class="text-2xl font-bold text-green-700 mb-4">ඔබටත් මේකෙන් උපයන්න පුළුවන්!</h2>
+                    <p class="text-gray-700 text-lg">මේ ප්‍රසන්ටේෂන් එක බලන ඔයාටත් පුළුවන් මේ දැනුමෙන් ප්‍රයෝජනයක් ගන්න. ඔයාට පුළුවන්:</p>
+                    <ul class="text-gray-700 text-left text-lg list-disc list-inside">
+                        <li>අනිත් අයට ඇප් හදන්න උගන්වන්න.</li>
+                        <li>ව්‍යාපාර වලට අවශ්‍ය ඇප් හදලා දෙන්න.</li>
+                        <li>ඔයාගේම ඇප් හැදලා විකුණන්න.</li>
+                    </ul>
+                    <p class="text-gray-700 text-lg">අපි එකතු වෙලා මේ ගැන තව කතා කරමු. ඔයාලගේ අදහස් මොනවද කියලා දැනගන්න මම කැමතියි.</p>
+                    <a href="mailto:your_email@example.com" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-6">අපි එකතු වෙමු!</a>
+                </div>
             </div>
         </div>
 
-        <div id="slide3" class="slide flex-col justify-center text-center">
-             <div class="section bg-white p-8 rounded-xl shadow-md border border-gray-200">
-            <h2 class="text-2xl font-bold text-green-700 mb-4">විසඳුම සහ ආරම්භ කළ හැකි ක්‍රමය</h2>
-            <p class="text-gray-700 text-lg">මේකට තියෙන හොඳම විසඳුම තමයි අපි <span class="font-bold text-green-700">ඇප් හදන්න ඉගෙනගන්න</span> එක. ඔයාලා හිතන්න එපා ඒක අමාරු වැඩක් කියලා. මම දන්නවා ඔයාලා දක්ෂයි කියලා. ඔයාලට පුළුවන් සරල ඇප් එකක් හදන්න ඉගෙනගන්න. ජනවාරි ඉඳන් උදේට ඔයාලට නිදහස් වෙලාව තියෙනවනේ. ඒ කාලේ පාවිච්චි කරලා ඔන්ලයින් වලින් නොමිලේ තියෙන පාඨමාලා වලින් මේ දේවල් ඉගෙනගන්න පුළුවන්.</p>
-            <p class="text-gray-700 text-lg">මම ඔයාලට උදව් කරන්න ලෑස්තියි. <span class="font-bold text-green-700">නෝඩ් ජේ එස්</span> වගේ දේවල් ඔයාලට ටික ටික ඉගෙනගන්න පුළුවන්. මුලින්ම සරල ඇප් එකක් හදමු. කාලගුණය බලන්න, සටහන් තියාගන්න වගේ සරල ඇප් වලින් පටන්ගමු. පස්සේ ටික ටික අලුත් දේවල් ඉගෙනගන්න පුළුවන්.</p>
-                <img src="placeholder-learn.png" alt="ඉගෙන ගන්නා ආකාරය" class="max-w-md h-auto my-4">
-          </div>
+        <div class="navigation-buttons">
+            <button class="nav-button" onclick="prevSlide()">පසුපසට</button>
+            <button class="nav-button" onclick="nextSlide()">ඉදිරියට</button>
         </div>
 
-         <div id="slide4" class="slide flex-col justify-center text-center">
-            <div class="section bg-white p-8 rounded-xl shadow-md border border-gray-200">
-              <h2 class="text-2xl font-bold text-green-700 mb-4">ආදායම් සහ අනාගතය</h2>
-            <p class="text-gray-700 text-lg">හිතන්න ඔයාලා හදන ඇප් එකක් මිලියනයක් ඩවුන්ලෝඩ් කළොත්. ඒකෙන් පොඩි ගාණක් අය කළොත් වුණත් ඔයාලට කොච්චර ආදායමක් එයිද? මේක ඔයාලගේ අනාගතය වෙනස් කරන්න පුළුවන් හොඳ අවස්ථාවක්. අපේ ආයතනයේ අධිපතිතුමා ආපහු එනකොට ඔයාලට පුළුවන් එයාට ඔයාලාගේම ඇප් එකක් පෙන්නන්න. ඒක කොච්චර ආඩම්බරයක්ද?</p>
-              <img src="placeholder-money.png" alt="ආදායම් අවස්ථා" class="max-w-md h-auto my-4">
-           </div>
+        <div class="icon-container">
+            <i class="fas fa-mobile-alt text-2xl text-green-700 hover:text-green-500 cursor-pointer" data-slide="1" title="ජංගම දුරකථන"></i>
+            <i class="fas fa-chart-line text-2xl text-green-700 hover:text-green-500 cursor-pointer" data-slide="2" title="ප්‍රස්ථාර"></i>
+            <i class="fas fa-code text-2xl text-green-700 hover:text-green-500 cursor-pointer" data-slide="3" title="කේතනය"></i>
+            <i class="fas fa-graduation-cap text-2xl text-green-700 hover:text-green-500 cursor-pointer" data-slide="4" title="අධ්‍යාපනය"></i>
+            <i class="fas fa-dollar-sign text-2xl text-green-700 hover:text-green-500 cursor-pointer" data-slide="5" title="ආදායම"></i>
+            <i class="fas fa-users text-2xl text-green-700 hover:text-green-500 cursor-pointer" data-slide="5" title="පරිශීලකයින්"></i>
         </div>
 
-        <div id="slide5" class="slide flex-col justify-center text-center">
-          <div class="section bg-white p-8 rounded-xl shadow-md border border-gray-200">
-              <h2 class="text-2xl font-bold text-green-700 mb-4">ඔබටත් මේකෙන් උපයන්න පුළුවන්!</h2>
-                <p class="text-gray-700 text-lg">මේ ප්‍රසන්ටේෂන් එක බලන ඔයාටත් පුළුවන් මේ දැනුමෙන් ප්‍රයෝජනයක් ගන්න. ඔයාට පුළුවන්:</p>
-                <ul class="text-gray-700 text-left text-lg list-disc list-inside">
-                    <li>අනිත් අයට ඇප් හදන්න උගන්වන්න.</li>
-                   <li>ව්‍යාපාර වලට අවශ්‍ය ඇප් හදලා දෙන්න.</li>
-                  <li>ඔයාගේම ඇප් හැදලා විකුණන්න.</li>
-               </ul>
-            <p class="text-gray-700 text-lg">අපි එකතු වෙලා මේ ගැන තව කතා කරමු. ඔයාලගේ අදහස් මොනවද කියලා දැනගන්න මම කැමතියි.</p>
-            <a href="mailto:your_email@example.com" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-6">අපි එකතු වෙමු!</a>
-          </div>
-        </div>
-      <div class="navigation-buttons">
-        <button class="nav-button" onclick="prevSlide()">Back</button>
-       <button class="nav-button" onclick="nextSlide()">Next</button>
-      </div>
-
-       <div class="icon-container flex justify-center mt-6">
-            <div  class="flex space-x-4">
-                <i class="fas fa-mobile-alt text-2xl text-green-700 hover:text-green-500 cursor-pointer"></i>
-                 <i class="fas fa-code text-2xl text-green-700 hover:text-green-500 cursor-pointer"></i>
-                <i class="fas fa-graduation-cap text-2xl text-green-700 hover:text-green-500 cursor-pointer"></i>
-                  <i class="fas fa-chart-line text-2xl text-green-700 hover:text-green-500 cursor-pointer"></i>
-                 <i class="fas fa-users text-2xl text-green-700 hover:text-green-500 cursor-pointer"></i>
-                  <i class="fas fa-envelope text-2xl text-green-700 hover:text-green-500 cursor-pointer"></i>
-           </div>
-         </div>
-
-       <div class="chart-container mx-auto">
+        <div class="chart-container mx-auto">
             <canvas id="myChart"></canvas>
-          <p id="chart-source" class="source text-center"></p>
-      </div>
+            <p id="chart-source" class="source text-center"></p>
+        </div>
     </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-    const slides = document.querySelectorAll('.slide');
-    let currentSlide = 0;
-    const chartSource = document.getElementById('chart-source');
 
-    function showSlide(index) {
-        slides.forEach(slide => {
-            slide.classList.remove('active');
-         });
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const navIcons = document.querySelectorAll('.icon-container i');
+        let currentSlide = 0;
+        const chartSource = document.getElementById('chart-source');
+        let myChart; // Declare chart variable in the global scope
 
-        slides[index].classList.add('active');
-         updateChart(slides[index].id);
-
-    }
-
-    window.nextSlide = function() {
-         currentSlide = (currentSlide + 1) % slides.length;
-        showSlide(currentSlide);
-     }
-      window.prevSlide = function() {
-        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-         showSlide(currentSlide);
-      }
-        // Show first slide initially
-    showSlide(currentSlide);
-
-   function updateChart(slideId) {
-      let chartData;
-    let source = "";
-
-    if (slideId === 'slide1') {
-        chartData = {
-                labels: ['ඇප් ආදායම්', 'සාමාන්‍ය ආදායම්'],
-                datasets: [{
-                  label: 'ආදායම් මාර්ග (ශ්‍රී ලංකාව)',
-                    data: [2.5, 0.8],
-                    backgroundColor: [
-                      'rgba(75, 192, 192, 0.2)',
-                      'rgba(255, 99, 132, 0.2)',
-                     ],
-                    borderColor: [
-                     'rgba(75, 192, 192, 1)',
-                       'rgba(255, 99, 132, 1)',
-                  ],
-               borderWidth: 1
-            }]
-       };
-      source = "මූලාශ්‍රය: විවිධ අන්තර්ජාල වාර්තා, දත්ත සාමාන්‍ය අගයන් මත පදනම් වේ.";
-
-      }else if(slideId === 'slide2'){
-        chartData = {
-           labels: ['ස්මාර්ට්ෆෝන් භාවිතාකරන්නන් (ශ්‍රී ලංකාව)', 'ඇප් ඩවුන්ලෝඩ්ස් (මසකට)'],
-              datasets: [{
-                 label: 'පරිශීලක හැසිරීම්',
-                   data: [10, 30],
-                   backgroundColor: [
-                       'rgba(54, 162, 235, 0.2)',
-                      'rgba(255, 206, 86, 0.2)',
-                 ],
-                 borderColor: [
-                      'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                 ],
-               borderWidth: 1
-                }]
-         };
-      source = "මූලාශ්‍රය: GSMA Intelligence, 2023 තෙවන කාර්තුව";
-    }
-    else if(slideId === 'slide3') {
-          chartData = {
-             labels: ['ඉගෙනුම් කාලය (පැය)', 'ව්‍යාපෘති නිමකිරීම (සාමාන්‍යය)'],
-            datasets: [{
-              label: 'නිපුණතා වර්ධනය',
-              data: [150, 7],
-               backgroundColor: [
-                 'rgba(153, 102, 255, 0.2)',
-                 'rgba(255, 159, 64, 0.2)',
-              ],
-                borderColor: [
-                  'rgba(153, 102, 255, 1)',
-                   'rgba(255, 159, 64, 1)',
-                ],
-           borderWidth: 1
-         }]
-    };
-     source = "මූලාශ්‍රය: Udemy හා Coursera සමීක්ෂණ, 2023";
-    }
-    else if(slideId === 'slide4') {
-         chartData = {
-               labels: ['ඇප් ඩවුන්ලෝඩ්ස් (ශ්‍රී ලංකාව)', 'සාමාන්‍ය ආදායම (ඇමරිකානු ඩොලර් වලින්)'],
-              datasets: [{
-                  label: 'ඇප් කාර්යසාධනය',
-                 data: [200000, 500],
-                 backgroundColor: [
-                  'rgba(255, 100, 200, 0.2)',
-                  'rgba(179, 255, 200, 0.2)',
-             ],
-             borderColor: [
-                'rgba(255, 100, 200, 1)',
-                  'rgba(179, 255, 200, 1)',
-                ],
-            borderWidth: 1
-              }]
-         };
-      source = "මූලාශ්‍රය: Sensor Tower හා App Annie දත්ත, 2023";
-    }else if(slideId === 'slide5'){
-      chartData = {
-            labels: ['උපදේශනය (පැය ගණන)', 'නිදහස් සේවා (ව්‍යාපෘති ගණන)', 'නිෂ්පාදන විකිණීම (අයිතම)'],
-           datasets: [{
-              label: 'ආදායම් අවස්ථා',
-                data: [50, 25, 150],
-                backgroundColor: [
-                   'rgba(150, 50, 250, 0.2)',
-                   'rgba(255, 159, 250, 0.2)',
-                   'rgba(50, 250, 250, 0.2)',
-              ],
-            borderColor: [
-                  'rgba(150, 50, 250, 1)',
-                   'rgba(255, 159, 250, 1)',
-                 'rgba(50, 250, 250, 1)',
-           ],
-           borderWidth: 1
-             }]
-          };
-       source = "මූලාශ්‍රය: Freelancer, Upwork හා විවිධ e-commerce වෙබ් අඩවි දත්ත, 2023";
-    }
-      const ctx = document.getElementById('myChart').getContext('2d');
-        if (window.myChart instanceof Chart) {
-            window.myChart.destroy();
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            updateIcons(index + 1);
+            updateChart(slides[index].id);
+            // Add fade-in class to the active slide
+            slides[index].classList.add('fade-in');
         }
 
-       window.myChart = new Chart(ctx, {
-          type: 'bar',
-          data: chartData,
-            options: {
-            scales: {
-              y: {
-                  beginAtZero: true,
-               },
-             },
-             plugins: {
-            legend: {
-              display: false,
-              }
-            }
-           }
-        });
-    chartSource.textContent = source; //set chart source
-    }
+        function updateIcons(slideNumber) {
+            navIcons.forEach(icon => {
+                icon.style.display = 'none'; // Initially hide all icons
+            });
 
-    });
-</script>
+            let iconsToShow = [];
+            switch (slideNumber) {
+                case 1:
+                    iconsToShow = ['fa-mobile-alt'];
+                    break;
+                case 2:
+                    iconsToShow = ['fa-chart-line'];
+                    break;
+                case 3:
+                    iconsToShow = ['fa-code'];
+                    break;
+                case 4:
+                    iconsToShow = ['fa-graduation-cap'];
+                    break;
+                case 5:
+                    iconsToShow = ['fa-dollar-sign', 'fa-users'];
+                    break;
+                default:
+                    break;
+            }
+
+            navIcons.forEach(icon => {
+                if (iconsToShow.some(showIcon => icon.classList.contains(showIcon))) {
+                    icon.style.display = 'inline-block';
+                }
+            });
+        }
+
+        window.nextSlide = function() {
+            slides[currentSlide].classList.remove('fade-in'); // Remove fade-in class
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        window.prevSlide = function() {
+            slides[currentSlide].classList.remove('fade-in'); // Remove fade-in class
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        navIcons.forEach(icon => {
+            icon.addEventListener('click', function() {
+                const slideNumber = parseInt(this.dataset.slide);
+                if (slideNumber) {
+                    slides[currentSlide].classList.remove('fade-in'); // Remove fade-in class from current slide
+                    currentSlide = slideNumber - 1;
+                    showSlide(currentSlide);
+                }
+            });
+        });
+
+        function updateChart(slideId) {
+            let chartData;
+            let source = "";
+
+            if (slideId === 'slide1') {
+                chartData = {
+                    labels: ['ඇප් ආදායම්', 'සාමාන්‍ය ආදායම්'],
+                    datasets: [{
+                        label: 'ආදායම් මාර්ග (ශ්‍රී ලංකාව)',
+                        data: [2.5, 0.8],
+                        backgroundColor: ['rgba(75, 192, 192, 0.2)','rgba(255, 99, 132, 0.2)'],
+                        borderColor: ['rgba(75, 192, 192, 1)','rgba(255, 99, 132, 1)'],
+                        borderWidth: 1
+                    }]
+                };
+                source = "මූලාශ්‍රය: විවිධ අන්තර්ජාල වාර්තා, දත්ත සාමාන්‍ය අගයන් මත පදනම් වේ.";
+            } else if(slideId === 'slide2'){
+                chartData = {
+                    labels: ['ස්මාර්ට්ෆෝන් භාවිතාකරන්නන් (ශ්‍රී ලංකාව, මිලියන)', 'මසකට ඇප් ඩවුන්ලෝඩ්ස් (මිලියන)'],
+                    datasets: [{
+                        label: 'පරිශීලක හැසිරීම්',
+                        data: [10, 30],
+                        backgroundColor: ['rgba(54, 162, 235, 0.2)','rgba(255, 206, 86, 0.2)'],
+                        borderColor: ['rgba(54, 162, 235, 1)','rgba(255, 206, 86, 1)'],
+                        borderWidth: 1
+                    }]
+                };
+                source = "මූලාශ්‍රය: GSMA Intelligence, 2023 තෙවන කාර්තුව";
+            } else if(slideId === 'slide3') {
+                chartData = {
+                    labels: ['ඇප් සංවර්ධනය ඉගෙනීමට ගතවන සාමාන්‍ය කාලය (පැය)', 'පළමු ව්‍යාපෘතිය නිම කිරීමට ගතවන සාමාන්‍ය කාලය (සති)'],
+                    datasets: [{
+                        label: 'නිපුණතා වර්ධනය',
+                        data: [150, 7],
+                        backgroundColor: ['rgba(153, 102, 255, 0.2)','rgba(255, 159, 64, 0.2)'],
+                        borderColor: ['rgba(153, 102, 255, 1)','rgba(255, 159, 64, 1)'],
+                        borderWidth: 1
+                    }]
+                };
+                source = "මූලාශ්‍රය: Udemy හා Coursera සමීක්ෂණ, 2023";
+            } else if(slideId === 'slide4') {
+                chartData = {
+                    labels: ['සාර්ථක ඇප් එකක සාමාන්‍ය මාසික ඩවුන්ලෝඩ් (ශ්‍රී ලංකාව)', 'සාමාන්‍ය මාසික ආදායම (ඇමරිකානු ඩොලර් වලින්)'],
+                    datasets: [{
+                        label: 'ඇප් කාර්යසාධනය',
+                        data: [200000, 500],
+                        backgroundColor: ['rgba(255, 99, 132, 0.2)','rgba(54, 162, 235, 0.2)'],
+                        borderColor: ['rgba(255, 99, 132, 1)','rgba(54, 162, 235, 1)'],
+                        borderWidth: 1
+                    }]
+                };
+                source = "මූලාශ්‍රය: Sensor Tower හා App Annie දත්ත, 2023";
+            } else if(slideId === 'slide5'){
+                chartData = {
+                    labels: ['උපදේශනයෙන් ලැබෙන ආදායම (පැය)', 'නිදහස් සේවාවන්ගෙන් ලැබෙන ආදායම (මසකට)', 'ඔබේම ඇප් විකිණීමෙන් ලැබෙන ආදායම (මසකට)'],
+                    datasets: [{
+                        label: 'ආදායම් අවස්ථා',
+                        data: [50, 300, 200],
+                        backgroundColor: ['rgba(255, 206, 86, 0.2)','rgba(75, 192, 192, 0.2)','rgba(153, 102, 255, 0.2)'],
+                        borderColor: ['rgba(255, 206, 86, 1)','rgba(75, 192, 192, 1)','rgba(153, 102, 255, 1)'],
+                        borderWidth: 1
+                    }]
+                };
+                source = "මූලාශ්‍රය: Freelancer, Upwork හා විවිධ e-commerce වෙබ් අඩවි දත්ත, 2023";
+            }
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+            if (myChart) {
+                myChart.destroy();
+            }
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            chartSource.textContent = source;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            showSlide(currentSlide);
+        });
+    </script>
 </body>
 </html>
